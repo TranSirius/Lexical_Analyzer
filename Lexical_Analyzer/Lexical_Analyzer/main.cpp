@@ -2,53 +2,32 @@
 #include"Buffer.hpp"
 #include"SymbolTable.hpp"
 #include<iostream>
+#include<stack>
 
 int main()
 {
 	BufferPairs buffer("C:\\Users\\TranS\\Desktop\\test\\test.txt");
-	char tmp = 0;
+	char tmp = -1;
+	int n = 5;
 
-	
-		for (int i = 1; i <= 2; i++) {
+	while (1) {
+		if (tmp == '\0') {
+			break;
+		}
+		n = rand() % 7;
+		for (int i = 1; i <= n; i++) {
 			tmp = buffer.Forward();
-			if (tmp == EOF) {
+			if (tmp == '\0') {
 				break;
 			}
 		}
-		std::cout << buffer.Output();
-
-		for (int i = 1; i <= 3; i++) {
-			tmp = buffer.Forward();
-			if (tmp == EOF) {
-				break;
-			}
+		if (n % 2) {
+			n = rand() % n;
+			for(int i = 1; i < n; i++)
+				buffer.Backward();
 		}
 		std::cout << buffer.Output();
-
-		for (int i = 1; i <= 2; i++) {
-			tmp = buffer.Forward();
-			if (tmp == EOF) {
-				break;
-			}
-		}
-		std::cout << buffer.Output();
-	
-		for (int i = 1; i <= 7; i++) {
-			tmp = buffer.Forward();
-			if (tmp == EOF) {
-				break;
-			}
-		}
-		std::cout << buffer.Output();
-
-		for (int i = 1; i <= 7; i++) {
-			tmp = buffer.Forward();
-			if (tmp == EOF) {
-				break;
-			}
-		}
-		std::cout << buffer.Output();
-
+	}
 	for (;;);
 	return 0;
 }

@@ -5,7 +5,7 @@ void BufferPairs::load_buffer()
 	if (is_empty == true) {
 		if (_file.is_open()) {
 			_file.get(buffer_pairs[forward_ptr], N + 1, EOF);
-			buffer_pairs[forward_ptr][N] = EOF;
+			buffer_pairs[forward_ptr][N] = '\0';
 			is_empty = false;
 		}
 		else {
@@ -65,7 +65,7 @@ BufferPairs::BufferPairs(std::string file_name)
 	_file.open(file_name.data(), std::ios::in);
 	if (_file.is_open()) {
 		_file.get(buffer_pairs[forward_ptr], N + 1, EOF);
-		buffer_pairs[forward_ptr][N] = EOF;
+		buffer_pairs[forward_ptr][N] = '\0';
 	}
 	else {
 		std::cerr << "Error ! no such file!\n";
@@ -77,7 +77,7 @@ char BufferPairs::Forward()
 {
 	_forward++;
 	char tmp = buffer_pairs[forward_ptr][_forward];
-	if (tmp == EOF) {
+	if (tmp == '\0') {
 		if (forward_is_left_end()) {
 			_forward = 0;
 			forward_ptr = 1;
