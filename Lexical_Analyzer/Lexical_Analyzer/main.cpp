@@ -1,11 +1,13 @@
-#include"Automata.hpp"
-#include"Buffer.hpp"
-#include"SymbolTable.hpp"
-#include<iostream>
-#include<stack>
+#include "Automata.hpp"
+#include "Buffer.hpp"
+#include "SymbolTable.hpp"
+#include <iostream>
+#include <stack>
+#include <time.h>
 
 int main()
 {
+	srand((unsigned int)time(0));
 	BufferPairs buffer("C:\\Users\\TranS\\Desktop\\test\\test.txt");
 	char tmp = -1;
 	int n = 5;
