@@ -8,7 +8,8 @@
 enum FirstType {
 	NONE1,
 	IDENTIFIER,
-	RESERVED_WORD
+	RESERVED_WORD,
+	OPERATOR
 };
 
 enum SecondType {
@@ -78,5 +79,6 @@ public:
 	attribute toTable(std::string symbol_name);
 	attribute fromTable(std::string symbol_name);
 	void outputToDisk(std::string file_name);
+	void outputToDisk(void);
 };
 

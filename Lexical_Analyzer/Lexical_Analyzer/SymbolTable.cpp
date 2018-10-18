@@ -69,9 +69,19 @@ std::ofstream & operator<<(std::ofstream & out, FirstType first) {
 	return out;
 }
 
-void SymbolTable::outputToDisk(std::string file_name = "SymbolTable")
+void SymbolTable::outputToDisk(std::string file_name = "SymbolTable.txt")
 {
 	std::ofstream file(file_name);
+	for (auto it : symbol_table) {
+		if (it.second.firstType == IDENTIFIER) {
+			file << it.first << std::endl;
+		}
+	}
+}
+
+void SymbolTable::outputToDisk(void)
+{
+	std::ofstream file(stdout);
 	for (auto it : symbol_table) {
 		if (it.second.firstType == IDENTIFIER) {
 			file << it.first << std::endl;
