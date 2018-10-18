@@ -23,7 +23,7 @@ private:
 	char begin_word();
 public:
 	BufferPairs();
-	BufferPairs(std::string file_name);
+	BufferPairs(const std::string & file_name);
 	char Forward(); 
 	void Backward();
 	std::string Output();

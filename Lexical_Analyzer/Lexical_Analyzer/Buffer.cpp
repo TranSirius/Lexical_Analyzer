@@ -56,7 +56,7 @@ BufferPairs::BufferPairs()
 //	exit(0);
 }
 
-BufferPairs::BufferPairs(std::string file_name)
+BufferPairs::BufferPairs(const std::string & file_name)
 {
 	lexeme_begin = 0;
 	_forward = -1;

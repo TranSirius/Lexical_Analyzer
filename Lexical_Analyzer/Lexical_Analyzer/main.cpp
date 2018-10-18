@@ -5,31 +5,31 @@
 #include <stack>
 #include <time.h>
 
+std::ostream & operator<<(std::ostream & out, FirstType first) {
+	if (first == IDENTIFIER) {
+		out << "IDENTIFIER";
+	}
+	else if (first == NONE1) {
+		out << "NONE1";
+	}
+	else if (first == RESERVED_WORD) {
+		out << "RESERVED WORD";
+	}
+	return out;
+}
+
 int main()
 {
 	srand((unsigned int)time(0));
 	BufferPairs buffer("C:\\Users\\TranS\\Desktop\\test\\test.txt");
-	char tmp = -1;
-	int n = 5;
 
-	while (1) {
-		if (tmp == '\0') {
-			break;
-		}
-		n = rand() % 7;
-		for (int i = 1; i <= n; i++) {
-			tmp = buffer.Forward();
-			if (tmp == '\0') {
-				break;
-			}
-		}
-		if (n % 2) {
-			n = rand() % n;
-			for(int i = 1; i < n; i++)
-				buffer.Backward();
-		}
-		std::cout << buffer.Output();
-	}
+	SymbolTable table;
+	std::cout << table.toTable("int").firstType << std::endl;
+	std::cout << table.toTable("x").firstType << std::endl;
+	std::cout << table.toTable("x").firstType << std::endl;
+	table.toTable("mazige");
+	table.toTable("adsfadf");
+	table.outputToDisk("C:\\Users\\TranS\\Desktop\\test\\symbol_table.txt");
 	for (;;);
 	return 0;
 }
