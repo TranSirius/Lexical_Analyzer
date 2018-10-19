@@ -61,10 +61,44 @@ bool Automata::is_hex()
 	}
 }
 
+bool Automata::is_digit()
+{
+	if (ch >= '0' && ch <= '9') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Automata::is_letter()
+{
+	if (ch >= 'a' && ch <= 'z') {
+		return true;
+	}
+	else if (ch >= 'A' && ch <= 'Z') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool Automata::is_whitespace()
+{
+	if (ch == '\t' || ch == '\n' || ch == '\t') {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 void Automata::run(void)
 {
 	state = 0;
 	do {
-
+		get_char();
+		
 	} while (ch != '\0');
 }

@@ -37,8 +37,11 @@ private:
 	void get_ch_type();
 	void generate_error(ERROR_TYPE error_type = unknown);
 
-	inline bool is_octal();
-	inline bool is_hex();
+	bool is_octal();
+	bool is_hex();
+	bool is_digit();
+	bool is_letter();
+	bool is_whitespace();
 
 public:
 	Automata(std::string _input_file, std::string _output_file, std::string _symbol_table_file, std::string _token_file, std::string _error_file) :
