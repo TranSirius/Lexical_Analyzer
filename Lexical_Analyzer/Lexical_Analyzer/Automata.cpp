@@ -982,6 +982,13 @@ void Automata::run(void)
 			if (ch == '\n') {
 				state = 305;
 			}
+			else if (ch == '\0') {
+				buffer_pairs.Backward();
+				std::cout << buffer_pairs.Output() << std::endl;
+				state = 0;
+				std::cout << "Comments detected\n";
+														// Unsolved, though it is detected
+			}
 			else if (ch != '\n') {
 				state = 304;
 			}
