@@ -21,15 +21,10 @@ std::ostream & operator<<(std::ostream & out, FirstType first) {
 int main()
 {
 	srand((unsigned int)time(0));
-	BufferPairs buffer("C:\\Users\\TranS\\Desktop\\test\\test.txt");
 
-	SymbolTable table;
-	std::cout << table.toTable("int").firstType << std::endl;
-	std::cout << table.toTable("x").firstType << std::endl;
-	std::cout << table.toTable("x").firstType << std::endl;
-	table.toTable("mazige");
-	table.toTable("adsfadf");
-	table.outputToDisk("C:\\Users\\TranS\\Desktop\\test\\symbol_table.txt");
+	Automata analyzer("C:\\Users\\TranS\\Desktop\\test\\test.txt");
+	analyzer.run();
+
 	for (;;);
 	return 0;
 }

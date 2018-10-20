@@ -6,6 +6,7 @@
 
 const int N = 4096;
 typedef char buffer[N + 1];
+ 
 
 class BufferPairs {
 private:
