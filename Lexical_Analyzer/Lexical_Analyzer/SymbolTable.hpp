@@ -61,7 +61,8 @@ enum SecondType {
 	DO,
 	IF,
 	STATIC,
-	WHILE
+	WHILE,
+	DEFINE
 };
 
 typedef struct {
@@ -78,6 +79,7 @@ public:
 	SymbolTable();
 	attribute toTable(std::string symbol_name);
 	attribute fromTable(std::string symbol_name);
+	std::string tranlateSecondType(attribute attr);
 	void outputToDisk(std::string file_name);
 	void outputToDisk(void);
 };

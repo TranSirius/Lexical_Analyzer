@@ -101,8 +101,9 @@ char BufferPairs::Forward()
 	}
 }
 
-void BufferPairs::Backward()
+char BufferPairs::Backward()
 {
+	char tmp = buffer_pairs[forward_ptr][_forward];
 	if (_forward == 0) {
 		_forward = N - 1;
 		forward_ptr = (forward_ptr + 1) % 2;
@@ -110,6 +111,7 @@ void BufferPairs::Backward()
 	else {
 		_forward--;
 	}
+	return tmp;
 }
 
 std::string BufferPairs::Output()

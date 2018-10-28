@@ -56,6 +56,80 @@ attribute SymbolTable::fromTable(std::string symbol_name)
 	return attr;
 }
 
+std::string SymbolTable::tranlateSecondType(attribute attr)
+{
+	switch (attr.secondType)
+	{
+	case AUTO:
+		return "AUTO";
+	case INT:
+		return "INT";
+	case DOUBLE:
+		return "DOUBLE";
+	case STRUCT:
+		return "STRUCT";
+	case BREAK:
+		return "BREAK";
+	case ELSE:
+		return "ELSE";
+	case LONG:
+		return "LONG";
+	case SWITCH:
+		return "SWITCH";
+	case CASE:
+		return "CASE";
+	case ENUM:
+		return "ENUM";
+	case REGISTER:
+		return "REGISTER";
+	case TYPEDEF:
+		return "TYPEDEF";
+	case CHAR:
+		return "CHAR";
+	case EXTERN:
+		return "EXTERN";
+	case RETURN:
+		return "RETURN";
+	case UNION:
+		return "UNION";
+	case CONST:
+		return "CONST";
+	case FLOAT:
+		return "FLOAT";
+	case SHORT:
+		return "SHORT";
+	case UNSIGNED:
+		return "UNSIGNED";
+	case CONTINUE:
+		return "CONTINUE";
+	case FOR:
+		return "FOR";
+	case SIGNED:
+		return "SIGNED";
+	case VOID:
+		return "VOID";
+	case DEFAULT:
+		return "DEFAULT";
+	case GOTO:
+		return "GOTO";
+	case SIZEOF:
+		return "SIZEOF";
+	case VOLATILE:
+		return "VOLATILE";
+	case DO:
+		return "DO";
+	case IF:
+		return "IF";
+	case STATIC:
+		return "STATIC";
+	case WHILE:
+		return "WHILE";
+	default:
+		break;
+	}
+	return std::string();
+}
+
 std::ofstream & operator<<(std::ofstream & out, FirstType first) {
 	if (first == IDENTIFIER) {
 		out << "IDENTIFIER";

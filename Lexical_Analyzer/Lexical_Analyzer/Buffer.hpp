@@ -26,6 +26,6 @@ public:
 	BufferPairs();
 	BufferPairs(const std::string & file_name);
 	char Forward(); 
-	void Backward();
+	char Backward();
 	std::string Output();
 };

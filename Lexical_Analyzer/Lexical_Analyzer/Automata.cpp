@@ -23,142 +23,14 @@ void Automata::generate_error(ERROR_TYPE error_type)
 	std::cerr << "Error detected at" << row_ptr << " : " << lexeme_ptr << std::endl;
 }
 
-bool Automata::is_octal()
+void Automata::backward()
 {
-	if (ch >= '0' && ch <= '7') {
-		return true;
-	}
-	else {
-		return false;
+	char tmp = buffer_pairs.Backward();
+	if (tmp == '\n') {
+		row_ptr--;
 	}
 }
 
-bool Automata::is_hex()
-{
-	if (ch >= '0' && ch <= '9') {
-		return true;
-	}
-	else if (ch >= 'a' && ch <= 'f') {
-		return true;
-	}
-	else if (ch >= 'A' && ch <= 'F') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_digit()
-{
-	if (ch >= '0' && ch <= '9') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_letter()
-{
-	if (ch >= 'a' && ch <= 'z') {
-		return true;
-	}
-	else if (ch >= 'A' && ch <= 'Z') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_whitespace()
-{
-	if (ch == '\t' || ch == '\n' || ch == '\t') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_float_suffix()
-{
-	if (ch == 'f' || ch == 'l' || ch == 'F' || ch == 'L') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_except()
-{
-	if (ch == '\'' || ch == '\\' || ch == '\n') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_escape()
-{
-	if (
-		ch == '\'' ||
-		ch == '\"' ||
-		ch == '?' ||
-		ch == 'a' ||
-		ch == 'b' ||
-		ch == 'f' ||
-		ch == 'n' ||
-		ch == 'r' ||
-		ch == 't' ||
-		ch == 'v'
-		)
-	{
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Automata::is_nonedigit()
-{
-	if (ch == '_') {
-		return true;
-	}
-	else if (ch >= 'a' && ch <= 'z') {
-		return true;
-	}
-	else if (ch >= 'A' && ch <= 'Z') {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-void Automata::returnFloat()
-{
-}
-
-void Automata::returnInt()
-{
-}
-
-void Automata::returnOctInt()
-{
-}
-
-void Automata::returnHexFloat()
-{
-}
-
-void Automata::returnHexInt()
-{
-}
 
 void Automata::run(void)
 {
@@ -201,10 +73,82 @@ void Automata::run(void)
 			else if (ch == '/') {
 				state = 301;
 			}
-
+			else if (ch == ',') {
+				state = 401;
+			}
+			else if (ch == ';') {
+				state = 402;
+			}
+			else if (ch == ':') {
+				state = 403;
+			}
+			else if (ch == '?') {
+				state = 404;
+			}
+			else if (ch == '|') {
+				state = 405;
+			}
+			else if (ch == '^') {
+				state = 406;
+			}
+			else if (ch == '=') {
+				state = 407;
+			}
+			else if (ch == '>') {
+				state = 408;
+			}
+			else if (ch == '<') {
+				state = 409;
+			}
+			else if (ch == '%') {
+				state = 410;
+			}
+			else if (ch == '!') {
+				state = 412;
+			}
+			else if (ch == '~') {
+				state = 413;
+			}
+			else if (ch == '*') {
+				state = 414;
+			}
+			else if (ch == '&') {
+				state = 415;
+			}
+			else if (ch == '+') {
+				state = 416;
+			}
+			else if (ch == '-') {
+				state = 417;
+			}
+			else if (ch == '.') {
+				state = 418;
+			}
+			else if (ch == '}') {
+				state = 419;
+			}
+			else if (ch == '{') {
+				state = 420;
+			}
+			else if (ch == ')') {
+				state = 421;
+			}
+			else if (ch == '(') {
+				state = 422;
+			}
+			else if (ch == ']') {
+				state = 423;
+			}
+			else if (ch == '[') {
+				state = 424;
+			}
+			else if (ch == '#') {
+				state = 425;
+			}
 			else {
 				std::cout << buffer_pairs.Output() << std::endl;
 				std::cerr << "state 0 error\n";
+				std::cout << "state 0 error\n";
 				state = 0;
 			}
 
@@ -214,11 +158,11 @@ void Automata::run(void)
 			if (is_digit()) {
 				state = 3;
 			}
+			else if (ch == '.') {
+				state = 522;
+			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 1 error\n";
-				state = 0;
+				returnPunc();
 			}
 
 			break;
@@ -243,10 +187,7 @@ void Automata::run(void)
 				state = 21;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Integer\n";
+				returnInt();
 			}
 
 			break;
@@ -262,10 +203,7 @@ void Automata::run(void)
 				state = 30;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Float\n";
+				returnFloat();
 			}
 
 			break;
@@ -281,10 +219,7 @@ void Automata::run(void)
 				state = 30;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Float\n";
+				returnFloat();
 			}
 
 			break;
@@ -297,10 +232,7 @@ void Automata::run(void)
 				state = 6;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 5 error\n";
-				state = 0;
+				state5Error();
 			}
 
 			break;
@@ -310,10 +242,7 @@ void Automata::run(void)
 				state = 7;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 6 error\n";
-				state = 0;
+				state6Error();
 			}
 
 			break;
@@ -326,17 +255,14 @@ void Automata::run(void)
 				state = 30;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Float\n";
+				returnFloat();
 			}
 
 			break;
 		case 8:
 
 			if (ch == '8' || ch == '9') {
-				state = 2;
+				state8Error();
 			}
 			else if (ch == '.') {
 				state = 4;
@@ -360,10 +286,7 @@ void Automata::run(void)
 				state = 33;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Integer\n";
+				returnOctInt();
 			}
 
 
@@ -371,7 +294,7 @@ void Automata::run(void)
 		case 9:
 
 			if (ch == '8' || ch == '9') {
-				state = 2;
+				state9Error();
 			}
 			else if (ch == '.') {
 				state = 4;
@@ -392,10 +315,7 @@ void Automata::run(void)
 				state = 33;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Int\n";
+				returnOctInt();
 			}
 
 			break;
@@ -408,10 +328,7 @@ void Automata::run(void)
 				state = 12;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 10 error\n";
-				state = 0;
+				state10Error();
 			}
 			break;
 		case 11:
@@ -420,10 +337,7 @@ void Automata::run(void)
 				state = 13;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 11 error\n";
-				state = 0;
+				state11Error();
 			}
 
 			break;
@@ -438,10 +352,7 @@ void Automata::run(void)
 				state = 12;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Hex Interger\n";
+				returnHexInt();
 			}
 
 			break;
@@ -457,10 +368,7 @@ void Automata::run(void)
 				state = 18;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Hex Float\n";
+				returnHexFloat();
 			}
 
 			break;
@@ -476,10 +384,7 @@ void Automata::run(void)
 				state = 18;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Hex Float\n";
+				returnHexFloat();
 			}
 
 			break;
@@ -488,14 +393,11 @@ void Automata::run(void)
 			if (ch == '+' || ch == '-') {
 				state = 16;
 			}
-			else if (is_hex()) {
+			else if (is_digit()) {
 				state = 17;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 15 error\n";
-				state = 0;
+				state15Error();
 			}
 
 			break;
@@ -505,10 +407,7 @@ void Automata::run(void)
 				state = 17;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				std::cerr << "state 16 error\n";
-				state = 0;
+				state16Error();
 			}
 
 			break;
@@ -522,10 +421,7 @@ void Automata::run(void)
 				state = 18;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Hex Float\n";
+				returnHexFloat();
 			}
 
 			break;
@@ -535,10 +431,7 @@ void Automata::run(void)
 */
 		case 18:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "Detect Hex Float\n";
+			returnHexFloat();
 
 			break;
 
@@ -551,10 +444,7 @@ void Automata::run(void)
 				state = 23;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -568,10 +458,7 @@ void Automata::run(void)
 				state = 24;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -585,10 +472,7 @@ void Automata::run(void)
 				state = 29;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -599,10 +483,7 @@ void Automata::run(void)
 				state = 26;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -613,10 +494,7 @@ void Automata::run(void)
 				state = 26;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -627,10 +505,7 @@ void Automata::run(void)
 				state = 26;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
@@ -641,22 +516,20 @@ void Automata::run(void)
 				state = 26;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Interger\n";
+				returnInt();
 			}
 
 			break;
 
 		case 26:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "Detect Interger\n";
+			returnInt();
 
 			break;
+
+		case 30:
+
+			returnFloat();
 
 		case 31:
 
@@ -667,10 +540,7 @@ void Automata::run(void)
 				state = 35;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 
 			break;
@@ -684,10 +554,7 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 			break;
 
@@ -700,10 +567,7 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 
 			break;
@@ -714,10 +578,7 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 
 			break;
@@ -728,10 +589,7 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 			break;
 
@@ -741,10 +599,7 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 
 			break;
@@ -755,20 +610,14 @@ void Automata::run(void)
 				state = 38;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Detect Octal Interger\n";
+				returnOctInt();
 			}
 
 			break;
 
 		case 38:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "Detect Octal Interger\n";
+			returnOctInt();
 
 			break;
 
@@ -781,7 +630,7 @@ void Automata::run(void)
 				state = 107;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "state 101 error\n";
@@ -798,7 +647,7 @@ void Automata::run(void)
 				state = 201;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "Identifier L detecter\n";
@@ -815,7 +664,7 @@ void Automata::run(void)
 				state = 201;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "identifier l detected\n";
@@ -828,11 +677,14 @@ void Automata::run(void)
 			if (ch == '\\') {
 				state = 106;
 			}
-			else if (!is_except()) {
+			else if (ch == '\"') {
+				state = 110;
+			}
+			else if (ch != '\n' && ch != '\\') {
 				state = 108;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "state 104 error\n";
@@ -845,10 +697,8 @@ void Automata::run(void)
 				state = 107;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 105 error\n";
+				state = 107;
+				state105Warning();
 			}
 
 			break;
@@ -859,10 +709,8 @@ void Automata::run(void)
 				state = 108;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 106 error\n";
+				state = 108;
+				state105Warning();
 			}
 
 			break;
@@ -875,11 +723,11 @@ void Automata::run(void)
 			else if (ch == '\'') {
 				state = 109;
 			}
-			else if (!is_except()) {
+			else if (ch != '\n' && ch != '\"' ) {
 				state = 107;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "state 107 error\n";
@@ -894,11 +742,11 @@ void Automata::run(void)
 			else if (ch == '\\') {
 				state = 106;
 			}
-			else if (!is_except()) {
+			else if (ch != '\n') {
 				state = 108;
 			}
 			else {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "state 108 error\n";
@@ -908,19 +756,13 @@ void Automata::run(void)
 
 		case 109:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "character constant detected\n";
+			returnCharacterConstant();
 
 			break;
 
 		case 110:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "string detecter\n";
+			returnString();
 
 			break;
 
@@ -930,10 +772,7 @@ void Automata::run(void)
 				state = 201;
 			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Identifier detected\n";
+				returnIdentifier();
 			}
 
 			break;
@@ -946,11 +785,11 @@ void Automata::run(void)
 			else if (ch == '/') {
 				state = 304;
 			}
+			else if (ch == '=') {
+				state = 512;
+			}
 			else {
-				buffer_pairs.Backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 301 error\n";
+				returnPunc();
 			}
 
 			break;
@@ -983,7 +822,7 @@ void Automata::run(void)
 				state = 305;
 			}
 			else if (ch == '\0') {
-				buffer_pairs.Backward();
+				backward();
 				std::cout << buffer_pairs.Output() << std::endl;
 				state = 0;
 				std::cout << "Comments detected\n";
@@ -997,17 +836,360 @@ void Automata::run(void)
 
 		case 305:
 
-			buffer_pairs.Backward();
-			std::cout << buffer_pairs.Output() << std::endl;
-			state = 0;
-			std::cout << "Comments detected\n";
+			returnComment();
 
 			break;
 
+			//punctuation
+
+		case 401:
+
+			returnPunc();
+
+			break;
+		case 402:
+
+			returnPunc();
+
+			break;
+		case 403:
+
+			returnPunc();
+
+			break;
+		case 404:
+
+			returnPunc();
+
+			break;
+		case 405:
+
+			if (ch == '|') {
+				state = 501;
+			}
+			else if (ch == '=') {
+				state = 502;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 406:
+
+			if (ch == '=') {
+				state = 503;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 407:
+
+			if (ch == '=') {
+				state = 504;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 408:
+
+			if (ch == '>') {
+				state = 505;
+			}
+			else if (ch == '=') {
+				state = 507;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 409:
+
+			if (ch == '<') {
+				state = 508;
+			}
+			else if (ch == '=') {
+				state = 510;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 410:
+
+			if (ch == '=') {
+				state = 511;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 411:
+
+			if (ch == '=') {
+				state = 512;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 412:
+
+			if (ch == '=') {
+				state = 513;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 413:
+
+			returnPunc();
+
+			break;
+		case 414:
+
+			if (ch == '=') {
+				state = 514;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 415:
+
+			if (ch == '&') {
+				state = 515;
+			}
+			else if (ch == '=') {
+				state = 516;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 416:
+
+			if (ch == '+') {
+				state = 517;
+			}
+			else if (ch == '=') {
+				state = 518;
+			}
+			else {
+				returnPunc();
+			}
+			break;
+		case 417:
+
+			if (ch == '>') {
+				state = 519;
+			}
+			else if (ch == '-') {
+				state = 520;
+			}
+			else if (ch == '=') {
+				state = 521;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 418:
+
+			if (ch == '.') {
+				state = 522;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 419:
+
+			returnPunc();
+
+			break;
+		case 420:
+
+			returnPunc();
+
+			break;
+		case 421:
+
+			returnPunc();
+
+			break;
+		case 422:
+
+			returnPunc();
+
+			break;
+		case 423:
+
+			returnPunc();
+
+			break;
+		case 424:
+
+			returnPunc();
+
+			break;
+		case 425:
+
+			returnPunc();
+
+			break;
+		case 501:
+
+			returnPunc();
+
+			break;
+		case 502:
+
+			returnPunc();
+
+			break;
+		case 503:
+
+			returnPunc();
+
+			break;
+		case 504:
+
+			returnPunc();
+
+			break;
+		case 505:
+
+			if (ch == '=') {
+				state = 506;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 506:
+
+			returnPunc();
+
+			break;
+		case 507:
+
+			returnPunc();
+
+			break;
+		case 508:
+
+			if (ch == '=') {
+				state = 509;
+			}
+			else {
+				returnPunc();
+			}
+
+			break;
+		case 509:
+
+			returnPunc();
+
+			break;
+		case 510:
+
+			returnPunc();
+
+			break;
+		case 511:
+
+			returnPunc();
+
+			break;
+		case 512:
+
+			returnPunc();
+
+			break;
+		case 513:
+
+			returnPunc();
+
+			break;
+		case 514:
+
+			returnPunc();
+
+			break;
+		case 515:
+
+			returnPunc();
+
+			break;
+		case 516:
+
+			returnPunc();
+
+			break;
+		case 517:
+
+			returnPunc();
+
+			break;
+		case 518:
+
+			returnPunc();
+
+			break;
+		case 519:
+
+			returnPunc();
+
+			break;
+		case 520:
+
+			returnPunc();
+
+			break;
+		case 521:
+
+			returnPunc();
+
+			break;
+		case 522:
+
+			if (ch == '.') {
+				state = 523;
+			}
+			else {
+				state522Error();
+			}
+ 
+			break;
+		case 523:
+
+			returnPunc();
+
+			break;
 		default:
-			
+
 			break;
 		}
 		
 	} while (ch != '\0');
+
+	std::cout << "Total row = " << row_ptr << std::endl;
+	std::cout << "Total lexeme(Punctuation and comments are not counted) = " << lexeme_count << std::endl;
+	symbol_table.outputToDisk(symbol_table_file);
 }

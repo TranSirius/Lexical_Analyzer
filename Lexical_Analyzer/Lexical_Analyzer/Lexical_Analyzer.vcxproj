@@ -117,14 +117,15 @@
   <ItemGroup>
     <ClInclude Include="Automata.hpp" />
     <ClInclude Include="Buffer.hpp" />
-    <ClInclude Include="Preprocessor.hpp" />
     <ClInclude Include="SymbolTable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Automata.cpp" />
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="ErrorSolution.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Preprocessor.cpp" />
+    <ClCompile Include="RecognitionSolution.cpp" />
+    <ClCompile Include="ReturnSolution.cpp" />
     <ClCompile Include="SymbolTable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
