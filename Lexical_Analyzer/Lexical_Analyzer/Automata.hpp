@@ -26,7 +26,25 @@ private:
 	int lexeme_ptr;
 	long lexeme_count = 0;
 
+	int warning_count = 0;
+	int error_count = 0;
+	int identifier_count = 0;
+
+	int int_count = 0;
+	int float_count = 0;
+	int hex_int_count = 0;
+	int hex_float_count = 0;
+	int octal_int_count = 0;
+
+	int char_count = 0;
+	int string_count = 0;
+	int comment_count = 0;
+
+	int punctuation_count = 0;
+
 	std::ofstream token_stream;
+
+	int warning = 0;
 private:
 	void get_char();
 	void get_nbc();
@@ -57,6 +75,9 @@ private:
 	
 	void returnPunc();
 
+	void state2_19_20_21_22_23_24_25SuffixError();
+	void state3LetterError();
+	void state3_4DotError();
 	void state5Error();
 	void state6Error();
 	void state8Error();
@@ -65,7 +86,13 @@ private:
 	void state11Error();
 	void state15Error();
 	void state16Error();
+	void state101EmptyError();
+	void state101Error();
 	void state105Warning();
+	void state107Error();
+	void state104_108Error();
+	void state108Error();
+	void constantWarning();
 
 	void state522Error();
 

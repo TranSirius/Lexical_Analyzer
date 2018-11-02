@@ -8,6 +8,8 @@ void Automata::returnFloat()
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
 	output_file << "FLOAT\t\t\t" << tmp << std::endl;
+	warning = 0;
+	float_count++;
 }
 
 void Automata::returnInt()
@@ -18,6 +20,8 @@ void Automata::returnInt()
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
 	output_file << "INTERGER\t\t" << tmp << std::endl;
+	warning = 0;
+	int_count++;
 }
 
 void Automata::returnOctInt()
@@ -28,6 +32,8 @@ void Automata::returnOctInt()
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
 	output_file << "OCTAL_INT\t\t" << tmp << std::endl;
+	warning = 0;
+	octal_int_count++;
 }
 
 void Automata::returnHexFloat()
@@ -38,6 +44,8 @@ void Automata::returnHexFloat()
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
 	output_file << "HEX_FLOAT\t\t" << tmp << std::endl;
+	warning = 0;
+	hex_float_count++;
 }
 
 void Automata::returnHexInt()
@@ -48,6 +56,8 @@ void Automata::returnHexInt()
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
 	output_file << "HEX_INTERGER\t\t" << tmp << std::endl;
+	warning = 0;
+	hex_int_count++;
 }
 
 void Automata::returnCharacterConstant()
@@ -60,6 +70,8 @@ void Automata::returnCharacterConstant()
 	tmp.replace(tmp.find('\''), 1, "");
 	tmp.replace(tmp.find('\''), 1, "");
 	output_file << "CHARACTER_CONSTANT\t" << tmp << std::endl;
+	warning = 0;
+	char_count++;
 }
 
 void Automata::returnString()
@@ -72,6 +84,8 @@ void Automata::returnString()
 	tmp.replace(tmp.find('\"'), 1, "");
 	tmp.replace(tmp.size() - 1, 1, "");
 	output_file << "CHARACTER_CONSTANT\t" << tmp << std::endl;
+	warning = 0;
+	string_count++;
 }
 
 void Automata::returnIdentifier()
@@ -88,7 +102,9 @@ void Automata::returnIdentifier()
 	}
 	else {
 		output_file << "IDENTIFIER\t\t" << tmp << std::endl;
+		identifier_count++;
 	}
+	warning = 0;
 }
 
 void Automata::returnComment()
@@ -96,6 +112,8 @@ void Automata::returnComment()
 	backward();
 	std::string tmp = buffer_pairs.Output();
 	state = 0;
+	warning = 0;
+	comment_count++;
 }
 
 void Automata::returnPunc()
@@ -104,4 +122,6 @@ void Automata::returnPunc()
 	std::string tmp = buffer_pairs.Output();
 	output_file << "PUNCTUATION\t\t" << tmp << std::endl;
 	state = 0;
+	warning = 0;
+	punctuation_count++;
 }

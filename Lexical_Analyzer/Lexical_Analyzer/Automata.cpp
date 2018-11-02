@@ -186,6 +186,9 @@ void Automata::run(void)
 			else if (ch == 'L') {
 				state = 21;
 			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
 			else {
 				returnInt();
 			}
@@ -202,6 +205,12 @@ void Automata::run(void)
 			else if (is_float_suffix()) {
 				state = 30;
 			}
+			else if (is_letter()) {
+				state3LetterError();
+			}
+			else if (ch == '.') {
+				state3_4DotError();
+			}
 			else {
 				returnFloat();
 			}
@@ -217,6 +226,9 @@ void Automata::run(void)
 			}
 			else if (is_float_suffix()) {
 				state = 30;
+			}
+			else if (ch == '.') {
+				state3_4DotError();
 			}
 			else {
 				returnFloat();
@@ -443,6 +455,9 @@ void Automata::run(void)
 			else if (ch == 'L') {
 				state = 23;
 			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
 			else {
 				returnInt();
 			}
@@ -456,6 +471,9 @@ void Automata::run(void)
 			}
 			else if (ch == 'l') {
 				state = 24;
+			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
 			}
 			else {
 				returnInt();
@@ -471,6 +489,9 @@ void Automata::run(void)
 			else if (ch == 'u' || ch == 'U') {
 				state = 29;
 			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
 			else {
 				returnInt();
 			}
@@ -481,6 +502,9 @@ void Automata::run(void)
 
 			if (ch == 'l') {
 				state = 26;
+			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
 			}
 			else {
 				returnInt();
@@ -493,6 +517,9 @@ void Automata::run(void)
 			if (ch == 'L') {
 				state = 26;
 			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
 			else {
 				returnInt();
 			}
@@ -504,6 +531,9 @@ void Automata::run(void)
 			if (ch == 'u' || ch == 'U') {
 				state = 26;
 			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
 			else {
 				returnInt();
 			}
@@ -514,6 +544,9 @@ void Automata::run(void)
 
 			if (ch == 'u' || ch == 'U') {
 				state = 26;
+			}
+			else if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
 			}
 			else {
 				returnInt();
@@ -629,11 +662,11 @@ void Automata::run(void)
 			else if (!is_except()) {
 				state = 107;
 			}
+			else if (ch == '\'') {
+				state101EmptyError();
+			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 101 error\n";
+				state101Error();
 			}
 
 			break;
@@ -683,11 +716,11 @@ void Automata::run(void)
 			else if (ch != '\n' && ch != '\\') {
 				state = 108;
 			}
+			else if (ch == '\n') {
+				state104_108Error();
+			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 104 error\n";
+				state108Error();
 			}
 			break;
 
@@ -718,6 +751,7 @@ void Automata::run(void)
 		case 107:
 
 			if (ch == '\\') {
+				constantWarning();
 				state = 105;
 			}
 			else if (ch == '\'') {
@@ -725,12 +759,10 @@ void Automata::run(void)
 			}
 			else if (ch != '\n' && ch != '\"' ) {
 				state = 107;
+				constantWarning();
 			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 107 error\n";
+				state107Error();
 			}
 			break;
 
@@ -745,11 +777,11 @@ void Automata::run(void)
 			else if (ch != '\n') {
 				state = 108;
 			}
+			else if (ch == '\n') {
+				state104_108Error();
+			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "state 108 error\n";
+				state108Error();
 			}
 
 			break;
@@ -822,11 +854,11 @@ void Automata::run(void)
 				state = 305;
 			}
 			else if (ch == '\0') {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Comments detected\n";
+				returnComment();
 														// Unsolved, though it is detected
+			}
+			else if (ch == '\\') {
+				state = 306;
 			}
 			else if (ch != '\n') {
 				state = 304;
@@ -841,6 +873,12 @@ void Automata::run(void)
 			break;
 
 			//punctuation
+
+		case 306:
+
+			state = 304;
+
+			break;
 
 		case 401:
 
@@ -1153,43 +1191,43 @@ void Automata::run(void)
 
 			break;
 		case 519:
-
 			returnPunc();
-
 			break;
 		case 520:
-
 			returnPunc();
-
 			break;
 		case 521:
-
 			returnPunc();
-
 			break;
 		case 522:
-
 			if (ch == '.') {
 				state = 523;
 			}
 			else {
 				state522Error();
 			}
- 
 			break;
 		case 523:
-
 			returnPunc();
-
 			break;
 		default:
-
 			break;
 		}
-		
 	} while (ch != '\0');
 
 	std::cout << "Total row = " << row_ptr << std::endl;
 	std::cout << "Total lexeme(Punctuation and comments are not counted) = " << lexeme_count << std::endl;
+	std::cout << "Total Error: \t\t" << error_count << std::endl;
+	std::cout << "Total Warning:\t\t" << warning_count << std::endl << std::endl;
+	std::cout << "Total Identifier:\t" << identifier_count << std::endl;
+	std::cout << "Total Int:\t\t" << int_count << std::endl;
+	std::cout << "Total Float:\t\t" << float_count << std::endl;
+	std::cout << "Total Octal Int:\t" << octal_int_count << std::endl;
+	std::cout << "Total Hex Int:\t\t" << hex_int_count << std::endl;
+	std::cout << "Total Hex Float:\t" << hex_float_count << std::endl;
+	std::cout << "Total Char Constant:\t" << char_count << std::endl;
+	std::cout << "Total String Constant:\t" << string_count << std::endl;
+	std::cout << "Total Comments:\t\t" << comment_count << std::endl;
+	std::cout << "Total Puncturation:\t" << punctuation_count << std::endl;
 	symbol_table.outputToDisk(symbol_table_file);
 }
