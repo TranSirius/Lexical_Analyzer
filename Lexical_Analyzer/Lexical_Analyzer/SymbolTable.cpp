@@ -1,5 +1,13 @@
 #include "SymbolTable.hpp"
 
+/*
+	return:			构造函数
+	parameter:		void
+	funtion:		在构造一个符号表时，我们将关键字预先存进去，这样设计的目的是，我们对关键字和标识符不加以区分对待地读取，通过查符号表
+					确定这是关键字还是标识符。
+					哈希表的特性保证了查表的速度不会太慢
+*/
+
 SymbolTable::SymbolTable()
 {
 	symbol_table.insert(Table::value_type("auto", { RESERVED_WORD, AUTO }));
@@ -36,9 +44,17 @@ SymbolTable::SymbolTable()
 	symbol_table.insert(Table::value_type("while", { RESERVED_WORD, WHILE }));
 }
 
+/*
+	return:			attribute
+	parameter:		void
+	funtion:		将一个关键字或者标识符存进符号表，符号表根据哈希表查表结果确定该单词是 关键字 还是 标识符
+					根据查表结果生成初始属性，并将属性返回给调用者
+*/
+
 attribute SymbolTable::toTable(std::string symbol_name)
 {
-	attribute attr = { FirstType::NONE1, SecondType::NONE2 };
+	attribute attr = { FirstType::NONE1, SecondType::NONE2 };		//我们通过try和catch的接口去查表，如果抛出异常，则说明表中本身不存在该单词
+																	//则生成该单词的初始化数据
 	try {
 		attr = symbol_table.at(symbol_name);
 	}
@@ -46,15 +62,27 @@ attribute SymbolTable::toTable(std::string symbol_name)
 		attr.firstType = IDENTIFIER;
 		symbol_table.insert(Table::value_type(symbol_name, attr));
 	}
-	return attr;
+	return attr;													//如果已经在符号表中，直接返回属性
 }
 
-attribute SymbolTable::fromTable(std::string symbol_name)
+/*
+	return:			attribute
+	parameter:		void
+	funtion:		查表函数，给标识符或关键字，在符号表中找该关键字，如果没有则抛出“out_of_range”的异常
+*/
+
+attribute SymbolTable::fromTable(std::string symbol_name)	
 {
 	attribute attr;
 	attr = symbol_table.at(symbol_name);
 	return attr;
 }
+
+/*
+	return:			string
+	parameter:		void
+	funtion:		将表内指定表项的属性翻译成可以输出的字符串
+*/
 
 std::string SymbolTable::tranlateSecondType(attribute attr)
 {
