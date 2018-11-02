@@ -157,7 +157,7 @@ void Automata::state105Warning()
 {
 	if (warning == 0) {
 		warning = 1;
-		error_file << row_ptr << ":" << lexeme_ptr << " [Warning] unknow sequences detected" << std::endl;
+		error_file << row_ptr << ":" << lexeme_ptr + 1 << " [Warning] unknow sequences detected" << std::endl;
 		warning_count++;
 	}
 }
@@ -198,7 +198,7 @@ void Automata::constantWarning()
 {
 	if (warning == 0) {
 		warning = 1;
-		error_file << row_ptr << ":" << lexeme_ptr << " [Warning] multi-character character constant" << std::endl;
+		error_file << row_ptr << ":" << lexeme_ptr + 1 << " [Warning] multi-character character constant" << std::endl;
 		warning_count++;
 	}
 }
