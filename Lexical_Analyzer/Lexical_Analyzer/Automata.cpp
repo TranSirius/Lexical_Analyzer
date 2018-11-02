@@ -665,6 +665,9 @@ void Automata::run(void)
 			else if (ch == '\'') {
 				state101EmptyError();
 			}
+			else if (ch == '\n') {
+				state101_107Error();
+			}
 			else {
 				state101Error();
 			}
@@ -760,6 +763,9 @@ void Automata::run(void)
 			else if (ch != '\n' && ch != '\"' ) {
 				state = 107;
 				constantWarning();
+			}
+			else if (ch == '\n') {
+				state101_107Error();
 			}
 			else {
 				state107Error();

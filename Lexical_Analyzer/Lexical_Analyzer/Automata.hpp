@@ -87,6 +87,7 @@ private:
 	void state15Error();
 	void state16Error();
 	void state101EmptyError();
+	void state101_107Error();
 	void state101Error();
 	void state105Warning();
 	void state107Error();

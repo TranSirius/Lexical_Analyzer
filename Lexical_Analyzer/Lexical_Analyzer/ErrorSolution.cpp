@@ -133,6 +133,15 @@ void Automata::state101EmptyError()
 	error_count++;
 }
 
+void Automata::state101_107Error()
+{
+	lexeme_count++;
+	std::string tmp = buffer_pairs.Output();
+	error_file << row_ptr - 1 << ":" << " " << " [Error] missing terminating \' character" << std::endl;
+	state = 0;
+	error_count++;
+}
+
 void Automata::state101Error()
 {
 	lexeme_count++;
