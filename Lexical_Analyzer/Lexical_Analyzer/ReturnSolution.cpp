@@ -1,5 +1,9 @@
 #include "Automata.hpp"
 
+/*
+	funtion:	返回十进制小数
+*/
+
 void Automata::returnFloat()
 {
 	lexeme_count++;
@@ -11,6 +15,10 @@ void Automata::returnFloat()
 	warning = 0;
 	float_count++;
 }
+
+/*
+	funtion:	返回十进制整数
+*/
 
 void Automata::returnInt()
 {
@@ -24,6 +32,10 @@ void Automata::returnInt()
 	int_count++;
 }
 
+/*
+	funtion:	返回八进制整数
+*/
+
 void Automata::returnOctInt()
 {
 	lexeme_count++;
@@ -35,6 +47,10 @@ void Automata::returnOctInt()
 	warning = 0;
 	octal_int_count++;
 }
+
+/*
+	funtion:	返回十六进制小数
+*/
 
 void Automata::returnHexFloat()
 {
@@ -48,6 +64,10 @@ void Automata::returnHexFloat()
 	hex_float_count++;
 }
 
+/*
+	funtion:	返回十六进制整数
+*/
+
 void Automata::returnHexInt()
 {
 	lexeme_count++;
@@ -59,6 +79,10 @@ void Automata::returnHexInt()
 	warning = 0;
 	hex_int_count++;
 }
+
+/*
+	funtion:	返回字符常量
+*/
 
 void Automata::returnCharacterConstant()
 {
@@ -74,6 +98,10 @@ void Automata::returnCharacterConstant()
 	char_count++;
 }
 
+/*
+	funtion:	返回字符串常量
+*/
+
 void Automata::returnString()
 {
 	lexeme_count++;
@@ -87,6 +115,10 @@ void Automata::returnString()
 	warning = 0;
 	string_count++;
 }
+
+/*
+	funtion:	返回标识符和关键字
+*/
 
 void Automata::returnIdentifier()
 {
@@ -107,6 +139,10 @@ void Automata::returnIdentifier()
 	warning = 0;
 }
 
+/*
+	funtion:	返回注释
+*/
+
 void Automata::returnComment()
 {
 	backward();
@@ -115,6 +151,10 @@ void Automata::returnComment()
 	warning = 0;
 	comment_count++;
 }
+
+/*
+	funtion:	返回标点符号
+*/
 
 void Automata::returnPunc()
 {

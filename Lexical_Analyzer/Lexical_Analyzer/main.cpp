@@ -22,6 +22,7 @@ std::ostream & operator<<(std::ostream & out, FirstType first) {
 
 int main(int argc, char ** argv)
 {
+	//首先引导用户打开输入文件，确定输出文件
 	std::string input_file;
 	std::string token_stream_file;
 	std::string error_file;
@@ -51,7 +52,7 @@ int main(int argc, char ** argv)
 	if (symbol_table == "\n") {
 		symbol_table = "symbol_table.txt";
 	}
-
+	//实例化一个词法分析器，并将其关联上输入输出文件
 	Automata analyzer(input_file, token_stream_file, error_file, symbol_table);
 	analyzer.run();
 

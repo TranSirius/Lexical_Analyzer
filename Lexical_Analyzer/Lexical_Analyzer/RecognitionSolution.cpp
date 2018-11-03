@@ -1,5 +1,9 @@
 #include "Automata.hpp"
 
+/*
+	funtion:	判断当前读取的是否是0到7
+*/
+
 bool Automata::is_octal()
 {
 	if (ch >= '0' && ch <= '7') {
@@ -9,6 +13,10 @@ bool Automata::is_octal()
 		return false;
 	}
 }
+
+/*
+	funtion:	判断当前读取的是否是0-9，a-f，A-F
+*/
 
 bool Automata::is_hex()
 {
@@ -26,6 +34,10 @@ bool Automata::is_hex()
 	}
 }
 
+/*
+	funtion:	判断当前读取的是否是0-9
+*/
+
 bool Automata::is_digit()
 {
 	if (ch >= '0' && ch <= '9') {
@@ -35,6 +47,10 @@ bool Automata::is_digit()
 		return false;
 	}
 }
+
+/*
+	funtion:	判断当前读取的是否是英文符号字母
+*/
 
 bool Automata::is_letter()
 {
@@ -49,6 +65,10 @@ bool Automata::is_letter()
 	}
 }
 
+/*
+	funtion:	判断当前读取的是否是换行符，制表符和空格
+*/
+
 bool Automata::is_whitespace()
 {
 	if (ch == '\t' || ch == '\n' || ch == '\t') {
@@ -58,6 +78,10 @@ bool Automata::is_whitespace()
 		return false;
 	}
 }
+
+/*
+	funtion:	判断当前读取的是否是浮点数的合法后缀
+*/
 
 bool Automata::is_float_suffix()
 {
@@ -69,6 +93,10 @@ bool Automata::is_float_suffix()
 	}
 }
 
+/*
+	funtion:	判断当前读取的是否是字符常量中的不合法字符
+*/
+
 bool Automata::is_except()
 {
 	if (ch == '\'' || ch == '\\' || ch == '\n') {
@@ -78,6 +106,10 @@ bool Automata::is_except()
 		return false;
 	}
 }
+
+/*
+	funtion:	判断当前读取的是否是转义字符
+*/
 
 bool Automata::is_escape()
 {
@@ -112,6 +144,10 @@ bool Automata::is_escape()
 		return false;
 	}
 }
+
+/*
+	funtion:	判断当前读取的是否是字母或下划线
+*/
 
 bool Automata::is_nonedigit()
 {

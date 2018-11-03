@@ -85,6 +85,7 @@ private:
 	void state9Error();
 	void state10Error();
 	void state11Error();
+	void state13_14Error();
 	void state15Error();
 	void state16Error();
 	void state101EmptyError();
@@ -103,6 +104,7 @@ public:
 	Automata(std::string _input_file, std::string _output_file, std::string _error_file, std::string _symbol_table):
 		buffer_pairs(_input_file), output_file(_output_file), symbol_table_file(_symbol_table), error_file(_error_file),
 		state(0), row_ptr(1), lexeme_ptr(0) {
+		output_file << "TOKEN NAME\t\t" << "TOKEN ATTRIBUTE\n\n";
 		error_file.clear();
 		output_file.clear();
 	};

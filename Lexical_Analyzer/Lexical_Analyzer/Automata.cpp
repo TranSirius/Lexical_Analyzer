@@ -1,5 +1,11 @@
 #include "Automata.hpp"
 
+/*
+	return:			void
+	parameter:		void
+	funtion:		从缓冲区中读取一个字符，将该字符存入ch中，同时对换行信息统计
+*/
+
 void Automata::get_char()
 {
 	ch = buffer_pairs.Forward();
@@ -9,6 +15,12 @@ void Automata::get_char()
 	}
 }
 
+/*
+	return:			void
+	parameter:		void
+	funtion:		在面对有空白字符时，可调用该函数，该函数可以消除接下来的若干空白字符，直到读到一个非空白字符为止
+*/
+
 void Automata::get_nbc()
 {
 	while (ch == '\n' || ch == ' ' || ch == '\t') {
@@ -17,11 +29,22 @@ void Automata::get_nbc()
 	}
 }
 
+/*
+	return:			void
+	parameter:		void
+	funtion:
+*/
 
 void Automata::generate_error(ERROR_TYPE error_type)
 {
 	std::cerr << "Error detected at" << row_ptr << " : " << lexeme_ptr << std::endl;
 }
+
+/*
+	return:			void
+	parameter:		void
+	funtion:		指针回退功能，通过调用该函数，向前指针可以回退一个字符
+*/
 
 void Automata::backward()
 {
@@ -31,6 +54,14 @@ void Automata::backward()
 	}
 }
 
+/*
+	return:			void
+	parameter:		void
+	funtion:		词法分析器的主要部分，其结构是一个有限状态自动机，该自动机被划分为5个部分，分别用来识别
+					数字常量、字符与字符串常量、标识符、注释和各种符号，其通过状态编号的首数字来区分。
+
+					具体请参考状态转换图，图已随文档附上
+*/
 
 void Automata::run(void)
 {
@@ -153,6 +184,7 @@ void Automata::run(void)
 			}
 
 			break;
+		//以下为处理数字常量的部分
 		case 1:
 
 			if (is_digit()) {
@@ -230,6 +262,9 @@ void Automata::run(void)
 			else if (ch == '.') {
 				state3_4DotError();
 			}
+			else if (is_letter()) {
+				state3LetterError();
+			}
 			else {
 				returnFloat();
 			}
@@ -297,6 +332,9 @@ void Automata::run(void)
 			else if (ch == 'L') {
 				state = 33;
 			}
+			else if (is_letter()) {
+				state8Error();
+			}
 			else {
 				returnOctInt();
 			}
@@ -325,6 +363,9 @@ void Automata::run(void)
 			}
 			else if (ch == 'L') {
 				state = 33;
+			}
+			else if (is_letter()) {
+				state9Error();
 			}
 			else {
 				returnOctInt();
@@ -363,6 +404,9 @@ void Automata::run(void)
 			else if (is_hex()) {
 				state = 12;
 			}
+			else if (is_letter()) {
+				state11Error();
+			}
 			else {
 				returnHexInt();
 			}
@@ -380,7 +424,7 @@ void Automata::run(void)
 				state = 18;
 			}
 			else {
-				returnHexFloat();
+				state13_14Error();
 			}
 
 			break;
@@ -396,7 +440,7 @@ void Automata::run(void)
 				state = 18;
 			}
 			else {
-				returnHexFloat();
+				state13_14Error();
 			}
 
 			break;
@@ -555,15 +599,21 @@ void Automata::run(void)
 			break;
 
 		case 26:
-
-			returnInt();
+			if (is_letter()) {
+				state2_19_20_21_22_23_24_25SuffixError();
+			}
+			else
+				returnInt();
 
 			break;
 
 		case 30:
-
-			returnFloat();
-
+			if (is_digit()) {
+				state3LetterError();
+			}
+			else {
+				returnFloat();
+			}
 		case 31:
 
 			if (ch == 'l') {
@@ -654,6 +704,8 @@ void Automata::run(void)
 
 			break;
 
+		//以下为处理字符与字符串常量的部分
+
 		case 101:
 
 			if (ch == '\\') {
@@ -683,10 +735,7 @@ void Automata::run(void)
 				state = 201;
 			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "Identifier L detecter\n";
+				returnIdentifier();
 			}
 
 			break;
@@ -700,10 +749,7 @@ void Automata::run(void)
 				state = 201;
 			}
 			else {
-				backward();
-				std::cout << buffer_pairs.Output() << std::endl;
-				state = 0;
-				std::cout << "identifier l detected\n";
+				returnIdentifier();
 			}
 
 			break;
@@ -804,6 +850,8 @@ void Automata::run(void)
 
 			break;
 
+		//以下为处理标识符和关键字的部分
+
 		case 201:
 
 			if (is_nonedigit() || is_digit()) {
@@ -814,6 +862,8 @@ void Automata::run(void)
 			}
 
 			break;
+
+		//以下为处理注释的部分
 
 		case 301:
 
